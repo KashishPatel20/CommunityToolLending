@@ -276,5 +276,16 @@ router.route('/tools')
         }
     });
 
+    router.route('/mapview')
+    .get(async (req, res) => {
+        try {
+            res.render('mapview', { themePreference: req.session.user.themePreference, title: 'Map View' });
+        } catch (error) {
+            console.log("mapview route get error");
+            console.log(error);
+            res.status(500).json({error: error.message});
+        }
+    });
+
 
 export default router;

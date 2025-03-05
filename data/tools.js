@@ -28,17 +28,17 @@ export const addTool = async (toolName, description, condition, userID, availabi
         const newTool = {toolName, description, condition, userID, dateAdded, availability, location, image};
         // console.log("Tool object created.");
         console.log(newTool);
-        // console.log("autocomplete");
-        // console.log(autocomplete);
-        // const apiKey="AIzaSyB4Xt0XFTeyZZXA_2tCA7i1_nH4cL_v82w";
-        // const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${autocomplete}&key=${apiKey}`;
-        // const response = await axios.get(url);
-        // console.log("Response from Google API:");
-        // console.log(response);
-        // const lat = response.data.results[0].geometry.location.lat;
-        // const lng = response.data.results[0].geometry.location.lng;
-        // console.log("lat and long",lat,lng);
-        // const toolfound = await toolCollection.findOne({toolName: toolName});
+        console.log("autocomplete");
+        console.log(autocomplete);
+        const apiKey="AIzaSyBZ4NqM0EoZQndD4HdKBbKR781kKNF6Gns";
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${autocomplete}&key=${apiKey}`;
+        const response = await axios.get(url);
+        console.log("Response from Google API:");
+        console.log(response);
+        const lat = response.data.results[0].geometry.location.lat;
+        const lng = response.data.results[0].geometry.location.lng;
+        console.log("lat and long",lat,lng);
+        const toolfound = await toolCollection.findOne({toolName: toolName});
         // if (toolfound) {
         //     throw `Error: Tool with name ${toolName} already exists, find a new name.`;
         // }

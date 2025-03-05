@@ -1,0 +1,33 @@
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="../public/css/styles.css">
+</head>
+<body class="{{themePreference}}">
+    <header class="header" id="header">  
+        <a href="/landing">Home</a>  
+        <a href="/tools">Search</a>
+        <a href="/users">Profile</a> 
+        <a href="/lenderportalpage">Manage</a>
+    </header>
+
+
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ4NqM0EoZQndD4HdKBbKR781kKNF6Gns&callback=initMap" async defer></script>
+    
+     <script>
+    // Callback function to initialize the map after the API is loaded
+    function initMap() {
+      // Set up map options
+      const mapOptions = {
+        center: { lat: -34.397, lng: 150.644 }, // Latitude and Longitude of the center
+        zoom: 8  // Set the zoom level (1 = farthest, 20 = closest)
+      };
+
+      // Create a new map and pass the container element (with ID 'map')
+      const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    }
+  </script>
+  </body>
+
+{{!-- // gmaps api AIzaSyBZ4NqM0EoZQndD4HdKBbKR781kKNF6Gns --}}
