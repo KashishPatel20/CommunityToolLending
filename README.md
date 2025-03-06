@@ -10,3 +10,4 @@ How to run program:
 4) register an account
 5) login
 6) start using features
+7) replace API_KEY with your actual google api key

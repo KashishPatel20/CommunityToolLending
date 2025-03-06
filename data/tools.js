@@ -31,7 +31,7 @@ export const addTool = async (toolName, description, condition, userID, availabi
         console.log(newTool);
         console.log("autocomplete");
         console.log(location);
-        const apiKey="AIzaSyA0avg431SnZTdc-QSRAjUWbP7YOdHDK0E";
+        const apiKey="API_KEY";
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${apiKey}`;
         const response = await axios.get(url);
         console.log("Response from Google API:");
