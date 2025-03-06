@@ -125,7 +125,9 @@ router.route('/toolsedit/:id')
 router.route('/toolsregister')
     .get(async (req, res) => {
         try{
-            res.render('toolsregister', {themePreference: 'dark', title: 'Tools'});
+            console.log("json values.................")
+            console.log(JSON.stringify(req.session, null, 2)); 
+            res.render('toolsregister', {themePreference: 'dark', title: 'Tools',userID : req.session.user._id});
         }
         catch (error) {
             console.log("toolsregister route get error");
@@ -135,6 +137,7 @@ router.route('/toolsregister')
     })
     .post(async (req, res) => {
         try {
+            console.log("tool_route line 140")
             let toolName = xss(req.body.toolName);
             let description = xss(req.body.description);
             let condition = xss(req.body.condition);
@@ -150,6 +153,7 @@ router.route('/toolsregister')
             availability.start = await helper.checkDate(availability.start, 'Start Date');
             availability.end = await helper.checkDate(availability.end, 'End Date');
             if (availability.start.getTime() > availability.end.getTime()) throw 'Error: Start Date must come before End Date';
+            console.log("tool_route line 155")
             let tool = await addTool(toolName, description, condition, userID, availability, location, image); 
             console.log("Tool: output");
             // console.log(tool);
@@ -282,6 +286,17 @@ router.route('/tools')
             res.render('mapview', { themePreference: req.session.user.themePreference, title: 'Map View' });
         } catch (error) {
             console.log("mapview route get error");
+            console.log(error);
+            res.status(500).json({error: error.message});
+        }
+    });
+
+    router.route('/geolocation')
+    .get(async (req, res) => {
+        try {
+            res.render('geolocation', { themePreference: req.session.user.themePreference, title: 'Geo Location' });
+        } catch (error) {
+            console.log("geolocation route get error");
             console.log(error);
             res.status(500).json({error: error.message});
         }

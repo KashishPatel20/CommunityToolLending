@@ -5,58 +5,71 @@ const loginform = document.getElementById('signin-form');
 
 if (toolregisterform) {
     console.log('toolregisterform');
+    
      toolregisterform.addEventListener('submit', (event) => {
          event.preventDefault();
+         console.log("submit clicked");
          const toolName = document.getElementById('toolName').value.trim();
          const description = document.getElementById('description').value.trim();
          const condition = document.getElementById('condition').value.trim();
          const userID = document.getElementById('userID').value.trim();
+         console.log("value of user id"+ userID);
          const availability = document.getElementById('availability').value.trim();
-         const location = document.getElementById('location').value.trim();
+         const location = document.getElementById('autocomplete').value.trim();
          // const images = document.getElementById('images').value;
          let error = document.getElementById('toolregistererror');
          error.innerHTML = '';
          error.hidden = true;
+         console.log("reached line 41");
          if(!toolName || !description || !condition || !userID || !availability || !location){
-             error.innerHTML = 'All fields are required';
+            console.log("reached line 43"); 
+            error.innerHTML = 'All fields are required';
              error.hidden = false;
              return;
          }
          else if(toolName.length < 2 || toolName.length > 40){
-             error.innerHTML = 'Tool Name must be between 2 and 40 characters';
+            console.log("reached line 49"); 
+            error.innerHTML = 'Tool Name must be between 2 and 40 characters';
              error.hidden = false;
              return;
          }
          else if (description.length > 500 || description.length < 2){
-             error.innerHTML = 'Description must be between 2 and 500 characters';
+            console.log("reached line 54"); 
+            error.innerHTML = 'Description must be between 2 and 500 characters';
              error.hidden = false;
              return;
          }
          else if (condition.length > 50){
-             error.innerHTML = 'Condition must be less than 50 characters';
+            console.log("reached line 59"); 
+            error.innerHTML = 'Condition must be less than 50 characters';
              error.hidden = false;
              return;
          }
          else if (userID.length > 50){
-             error.innerHTML = 'User ID must be less than 50 characters';
+            console.log("reached line 64"); 
+            error.innerHTML = 'User ID must be less than 50 characters';
              error.hidden = false;
              return;
          }
          else if (availability.length > 50){
-             error.innerHTML = 'Availability must be less than 50 characters';
+            console.log("reached line 69"); 
+            error.innerHTML = 'Availability must be less than 50 characters';
              error.hidden = false;
             return;
          }
-         else if (location.length > 50 || location.length < 2){
-             error.innerHTML = 'Location must be between 2 and 50 characters';
+         else if (location.length > 500 || location.length < 2){
+            console.log("reached line 75"); 
+            error.innerHTML = 'Location must be between 2 and 50 characters';
              error.hidden = false;
              return;
          }
          else{
+            console.log("reached else line 59");
              // toolregisterform.submit();
              event.target.submit();
          }
      });
+     console.log('toolregisterform reached end line 62');
  }
 
  if(userregisterform){

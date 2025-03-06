@@ -13,6 +13,7 @@
         <a href="/lenderportalpage">Manage</a>
     </header>
     <h1>tools</h1>
+    <h1>{{userID}}</h1>
     <div id="error" class="error" hidden></div>
     {{#if hasErrors}}
         <div class="error">{{error}}</div>
@@ -30,7 +31,8 @@
             
             <label for="toolName">Tool Name</label>
             <input type="text" id="toolName" name="toolName"><br>
-    
+            <input type="hidden" id="userID" name="userID" value="{{userID}}"><br>
+            <input type="hidden" id="availability" name="availability" value="1234eew45678"><br>
             <label for="description">Description</label>
             <input type="text" id="description" name="description"><br>
     
@@ -56,14 +58,15 @@
                 <label for="end_date">End Date:</label>
                 <input type="date" id="end_date" name="end_date" min="2024-01-01" max="2027-01-01">
             </fieldset>
-
+            
             <label for="autocomplete">Location</label>
             <input id="autocomplete" type="text" name="autocomplete" placeholder="Enter a location" /><br>
             <button id="submitButton" name="submitButton">Submit</button>
         </form><br>
         <div id="toolregistererror" class="formerror" hidden></div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="../public/js/client_side_validation.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ4NqM0EoZQndD4HdKBbKR781kKNF6Gns&libraries=places"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0avg431SnZTdc-QSRAjUWbP7YOdHDK0E&libraries=places"></script>
         <script src="../public/js/autocomplete.js"></script>
         <script>
   function initAutocomplete() {
@@ -77,7 +80,7 @@
   }
 
   // Initialize the autocomplete when the page loads
-  google.maps.event.addDomListener(window, 'load', initAutocomplete);
+  window.addEventListener('load', initAutocomplete);
 </script>
 
 </body>

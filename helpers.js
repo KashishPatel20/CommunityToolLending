@@ -50,6 +50,8 @@ const checkDate = async (date, varName) => {
     if (!date) `Error: You must provide a ${varName}`;
     if (Object.prototype.toString.call(date) !== '[object Date]') throw `Error: ${varName} must be a Date`;
     const currentDate = new Date();
+    console.log("date.gettime"+date.getTime());
+    console.log("currentdate.gettime"+currentDate.getTime());
     if (date.getTime() < currentDate.getTime()) throw `Error: ${varName} must be a date after the current date`;
     return date;
 };

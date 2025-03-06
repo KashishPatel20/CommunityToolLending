@@ -2,6 +2,7 @@ import { tools,users } from "../config/mongoCollections.js";
 import {ObjectId} from 'mongodb';
 import helper from '../helpers.js';
 import * as user from './users.js';
+import axios from 'axios';
 import{      
     checkIsProperString,
     checkIsProperPassword,
@@ -29,9 +30,9 @@ export const addTool = async (toolName, description, condition, userID, availabi
         // console.log("Tool object created.");
         console.log(newTool);
         console.log("autocomplete");
-        console.log(autocomplete);
-        const apiKey="AIzaSyBZ4NqM0EoZQndD4HdKBbKR781kKNF6Gns";
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${autocomplete}&key=${apiKey}`;
+        console.log(location);
+        const apiKey="AIzaSyA0avg431SnZTdc-QSRAjUWbP7YOdHDK0E";
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${apiKey}`;
         const response = await axios.get(url);
         console.log("Response from Google API:");
         console.log(response);

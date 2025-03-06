@@ -1,0 +1,6 @@
+tool register line 56,58, change min date to current date
+avaiability value is wrong, just put a temporary number in toolregister. handlebar at line35
+autocompplete store location in handlbar, location stre value of autocomplete in clientsidevalidation, line 18
+check line 146 of tool_route
+clean the upload folder, stre images in mongodb
+check geolocation.handlebar, tool_route line 294
