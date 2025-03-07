@@ -11,21 +11,58 @@
         <a href="/lenderportalpage">Manage</a>
     </header>
 
-
-    <div id="map"></div>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+    
     <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap" async defer></script>
-    <script src="https://www.googleapis.com/geolocation/v1/geolocate?key=API_KEY" async defer></script>
-     <script>
-    // Callback function to initialize the map after the API is loaded
-    function initMap() {
-      // Set up map options
-      const mapOptions = {
-        center: { lat: -34.397, lng: 150.644 }, // Latitude and Longitude of the center
-        zoom: 12  // Set the zoom level (1 = farthest, 20 = closest)
-      };
+    
+    <script>
+      // Function to get current location using the Geolocation API
+      function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position,error);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+      }
 
-      // Create a new map and pass the container element (with ID 'map')
-      const map = new google.maps.Map(document.getElementById('map'), mapOptions);
-    }
-  </script>
-  </body>
+      function position(pos) {
+        initMap(pos.coords.latitude, pos.coords.longitude);
+      }
+
+      function error(err) {
+        console.log(err);
+      }
+
+      // Function to initialize the map with the user's location
+      function initMap(latitude, longitude) {
+        const mapOptions = {
+          center: { lat: latitude, lng: longitude }, // Set the map's center to user's location
+          zoom: 15  // Set zoom level
+        };
+
+        // Create a new map
+        const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        
+        // use latest verion of marker, advance marker system.
+        const marker = new google.maps.Marker({
+          position: { lat: latitude, lng: longitude },
+          map: map,
+          title: "current location"
+        });
+        //location of tools
+        {{#each tools}}
+      new google.maps.Marker({
+            position: { lat: {{this.lat}}, lng: {{this.lng}} },
+            map: map,
+            title: "{{this.toolName}}"
+          });
+        {{/each}}
+      }
+
+      
+      
+
+      // Call the function to get location and initialize the map
+      getLocation();
+    </script>
+</body>

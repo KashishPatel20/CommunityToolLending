@@ -283,7 +283,9 @@ router.route('/tools')
     router.route('/mapview')
     .get(async (req, res) => {
         try {
-            res.render('mapview', { themePreference: req.session.user.themePreference, title: 'Map View' });
+            let tools=await getAllTools()
+            tools=tools.slice(0, Math.min(18, tools.length));
+            res.render('mapview', { themePreference: req.session.user.themePreference, title: 'Map View',tools:tools});
         } catch (error) {
             console.log("mapview route get error");
             console.log(error);
@@ -291,16 +293,6 @@ router.route('/tools')
         }
     });
 
-    router.route('/geolocation')
-    .get(async (req, res) => {
-        try {
-            res.render('geolocation', { themePreference: req.session.user.themePreference, title: 'Geo Location' });
-        } catch (error) {
-            console.log("geolocation route get error");
-            console.log(error);
-            res.status(500).json({error: error.message});
-        }
-    });
 
 
 export default router;

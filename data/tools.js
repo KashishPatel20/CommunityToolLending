@@ -26,9 +26,8 @@ export const addTool = async (toolName, description, condition, userID, availabi
         
         const toolCollection = await tools();
         const dateAdded = new Date().toLocaleDateString();
-        const newTool = {toolName, description, condition, userID, dateAdded, availability, location, image};
         // console.log("Tool object created.");
-        console.log(newTool);
+        
         console.log("autocomplete");
         console.log(location);
         const apiKey="API_KEY";
@@ -39,10 +38,12 @@ export const addTool = async (toolName, description, condition, userID, availabi
         const lat = response.data.results[0].geometry.location.lat;
         const lng = response.data.results[0].geometry.location.lng;
         console.log("lat and long",lat,lng);
+        const newTool = {toolName, description, condition, userID, dateAdded, availability, location,lat,lng, image};
+        console.log(newTool);
         const toolfound = await toolCollection.findOne({toolName: toolName});
-        // if (toolfound) {
-        //     throw `Error: Tool with name ${toolName} already exists, find a new name.`;
-        // }
+         if (toolfound) {
+             throw `Error: Tool with name ${toolName} already exists, find a new name.`;
+         }
         const result = await toolCollection.insertOne(newTool);
         if (!result.acknowledged || !result.insertedId) throw 'Error: Tool could not be inserted into database';
         let tool= await getToolWithID(result.insertedId.toString());
