@@ -95,17 +95,36 @@ router.route('/toolsedit/:id')
         try {
             console.log("inside tooledit route post");
             console.log(req.body);
+            console.log("req.body.changeimage");
+            console.log(req.body.changeimage);
+            let img=req.body.oldimage;
+            if(req.body.changeimage){
+                console.log("inside if");
+                img = xss(req.body.newimage);
+                console.log("newimage");
+            }
+            else{
+                console.log("inside else");
+                img = xss(req.body.oldimage);
+                console.log("oldimage");
+            }
             const toolData = {
-                _id: xss(req.body._id),
+                toolID: xss(req.body.toolId),
                 toolName: xss(req.body.toolName),
                 description: xss(req.body.description),
                 condition: xss(req.body.condition),
                 userID: req.session.user._id,
                 dateAdded: xss(req.body.dateAdded),
-                availability: xss(req.body.availability),
-                location: xss(req.body.autocomplete),
-                image: xss(req.body.image)
+                availability: {
+                    start: new Date(xss(req.body.start_date)),
+                    end: new Date(xss(req.body.end_date))
+                },
+                location: xss(req.body.location),
+                lat: xss(req.body.lat),
+                lng: xss(req.body.lng),    
+                image: img
             }
+            console.log("tooledit line 109")
             console.log(toolData);
             const updatetools = await updateTool(toolData);
             console.log("Tool edit : output");
@@ -113,6 +132,10 @@ router.route('/toolsedit/:id')
             // res.status().json(updatetools);
             if (updatetools.acknowledged) {
                 return res.redirect('/lenderportalpage');
+            }
+            else{
+                console.log("Tool not updated");
+                return res.redirect('/landing');
             }
 
         } catch (error) {
@@ -194,8 +217,6 @@ router.route('/tools')
     router.route('/tools/:id')
     .get(async (req, res) => {
         try {
-            console.log("req");
-            console.log(req);
             const tool = await getToolWithID(req.params.id);
             console.log("Tool:");
             console.log(tool);

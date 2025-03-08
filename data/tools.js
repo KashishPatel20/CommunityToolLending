@@ -124,7 +124,7 @@ export const getToolWithName = async (toolName) => {
     return tool;
 };
 // updateTool
-export const updateTool = async ({toolID, toolName, description, condition, userID, dateAdded, availability, location, image}) => {
+export const updateTool = async ({toolID, toolName, description, condition, userID, dateAdded, availability, location, lat, lng, image}) => {
     // toolID = await helper.checkId(toolID, 'Tool ID');
     // toolName = await helper.checkString(toolName, 'Tool Name');
     // description  = await helper.checkString(description, 'Description');
@@ -148,12 +148,24 @@ export const updateTool = async ({toolID, toolName, description, condition, user
         dateAdded: dateAdded,
         availability: availability,
         location: location,
+        lat: lat,
+        lng: lng,
         image: image
     };
-
+    console.log("updatedTool:");
+    console.log(updatedTool);
+    console.log("toolID:");
+    console.log(toolID);
     const toolCollection = await tools();
+    const toolfound = await toolCollection.findOne({_id: new ObjectId(toolID)});
+    console.log("Tool found:");
+    console.log(toolfound);
     const updateInfo = await toolCollection.findOneAndReplace({_id: new ObjectId(toolID)}, updatedTool, {returnDocument: 'after'});
+    console.log("Update Info:");
+    console.log(updateInfo);
     if (!updateInfo) throw `Error: Information for tool with id ${id} could not be updated`;
+    else if (updateInfo.modifiedCount === 0) throw `Error: Information for tool with id ${id} was not updated`;
+    console.log("Tool updated successfully");
     return updateInfo;
 };
 

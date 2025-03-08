@@ -13,7 +13,7 @@
 
     <div id="map" style="height: 500px; width: 100%;"></div>
     
-    <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&loading=async&callback=initMap" async defer></script>
     
     <script>
       // Function to get current location using the Geolocation API
@@ -37,7 +37,7 @@
       function initMap(latitude, longitude) {
         const mapOptions = {
           center: { lat: latitude, lng: longitude }, // Set the map's center to user's location
-          zoom: 15  // Set zoom level
+          zoom: 3  // Set zoom level
         };
 
         // Create a new map

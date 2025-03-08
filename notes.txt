@@ -5,3 +5,4 @@ check line 146 of tool_route
 clean the upload folder, stre images in mongodb
 check geolocation.handlebar, tool_route line 294
 tool_route line 56
+edit tool, new img do not adds up
