@@ -129,6 +129,23 @@ app.post("/toolsregister",  upload.single("image"), async (req, res, next) => {
     next();
   });
 
+app.post("/toolsedit/:id",  upload.single("newimage"), async (req, res, next) => {
+  console.log("chaneimage, app.js");
+  console.log(req.body.changeimage);
+  console.log("req.file");
+  console.log(req.file);
+  console.log("req.body");
+  console.log(req.body);
+  if(req.body.changeimage === "yes" && req.file){
+    req.body.newimage = req.file.filename;
+  }
+  else{
+    req.body.newimage = req.body.oldimage;
+  }
+  
+    next();
+  });
+
 configRoutes(app);
 
 

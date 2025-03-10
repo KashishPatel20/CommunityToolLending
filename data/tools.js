@@ -33,8 +33,6 @@ export const addTool = async (toolName, description, condition, userID, availabi
         const apiKey="API_KEY";
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${apiKey}`;
         const response = await axios.get(url);
-        console.log("Response from Google API:");
-        console.log(response);
         const lat = response.data.results[0].geometry.location.lat;
         const lng = response.data.results[0].geometry.location.lng;
         console.log("lat and long",lat,lng);

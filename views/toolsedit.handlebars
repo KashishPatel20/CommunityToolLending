@@ -6,6 +6,10 @@
 
 <body>
     <h1>edit tool</h1>
+    <div id="error" class="error" hidden></div>
+    {{#if hasErrors}}
+        <div class="error">{{error}}</div>
+    {{/if}}
     {{!-- <form action="/toolsedit/{{tool._id}}" id="edit-tool-info" name="edit-tool-info" class="dark" method="POST" enctype="multipart/form-data">
     <!-- Hidden field to store ID -->
     <input type="text" id="toolId" name="toolId" value="{{tool._id}}" />
@@ -69,9 +73,9 @@
     {{!-- <button id="edittoolsubmit" name="edittoolsubmit" type="submit">Update Tool</button>
 </form><br> --}}
 
-<form action="/toolsedit/{{tool._id}}" id="edit-tool-info" name="edit-tool-info" method="POST">
+<form action="/toolsedit/{{tool._id}}" id="edit-tool-info" name="edit-tool-info" method="POST" enctype="multipart/form-data">
     <input type="text" name="testField" value="testValue">
-<input type="text" id="toolId" name="toolId" value="{{tool._id}}" />
+    <input type="text" id="toolId" name="toolId" value="{{tool._id}}" />
     <input type="text" id="userID" name="userID" value="{{tool.userID}}" />
     <input type="hidden" id="dateAdded" name="dateAdded" value="{{tool.dateAdded}}" />
     {{!-- <input type="hidden" id="images" name="images" value="{{tool.images}}" /> --}}
@@ -85,11 +89,13 @@
     <input type="text" id="toolName" name="toolName" value="{{tool.toolName}}" /><br>
     <input type="hidden" id="oldimage" name="oldimage" value="{{tool.image}}" />
     <img src="/public/uploads/{{tool.image}}" alt="Image of {{tool.toolName}}" style="width:100px; height:100px;"><br>
-    <label for="image">Image of Product (Upload new to replace)</label>
+    <label for="newimage">Image of Product (Upload new to replace)</label>
     <input type="file" accept="image/*" id="newimage" name="newimage"><br>
-    {{!-- <input type="hidden" id="changeimage" name="changeimage" value="false"> --}}
-    <input type="checkbox" id="changeimage" name="changeimage" value="false">
-    
+    <label for="changeimage">Change Image</label>
+    <select id="changeimage" name="changeimage">
+        <option value="no">No, keep current image</option>
+        <option value="yes">Yes, upload a new image</option>
+    </select><br>
     <label for="changeimage">Check to change image</label><br>
     <label for="description">Description</label>
     <input type="text" id="description" name="description" value="{{tool.description}}" /><br>
@@ -109,7 +115,7 @@
 </form>
 
 {{!-- <div id="toolregistererror" class="formerror" hidden></div> --}}
-<script src="../public/js/client_side_validation.js"></script>
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../public/js/client_side_validation.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>

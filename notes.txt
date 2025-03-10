@@ -5,4 +5,7 @@ check line 146 of tool_route
 clean the upload folder, stre images in mongodb
 check geolocation.handlebar, tool_route line 294
 tool_route line 56
-edit tool, new img do not adds up
+tools in profile
+search engine fix "pl" give wrong
+mapview display only 18 of toools from all tools. 
+change location in seed. 

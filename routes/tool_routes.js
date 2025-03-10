@@ -97,17 +97,7 @@ router.route('/toolsedit/:id')
             console.log(req.body);
             console.log("req.body.changeimage");
             console.log(req.body.changeimage);
-            let img=req.body.oldimage;
-            if(req.body.changeimage){
-                console.log("inside if");
-                img = xss(req.body.newimage);
-                console.log("newimage");
-            }
-            else{
-                console.log("inside else");
-                img = xss(req.body.oldimage);
-                console.log("oldimage");
-            }
+            
             const toolData = {
                 toolID: xss(req.body.toolId),
                 toolName: xss(req.body.toolName),
@@ -122,7 +112,7 @@ router.route('/toolsedit/:id')
                 location: xss(req.body.location),
                 lat: xss(req.body.lat),
                 lng: xss(req.body.lng),    
-                image: img
+                image: xss(req.body.newimage)
             }
             console.log("tooledit line 109")
             console.log(toolData);
@@ -313,7 +303,5 @@ router.route('/tools')
             res.status(500).json({error: error.message});
         }
     });
-
-
 
 export default router;
