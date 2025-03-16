@@ -27,15 +27,17 @@
                 location: req.body.location,
                 images: req.body.images
             }; --}}
+        <div id="selectedDatesDisplay"></div>
     <form action="/toolsregister" id="tool-info" name="tool-info" class = "dark" method="POST" enctype="multipart/form-data">
             
             <label for="toolName">Tool Name</label>
             <input type="text" id="toolName" name="toolName"><br>
             <input type="hidden" id="userID" name="userID" value="{{userID}}"><br>
             <input type="hidden" id="availability" name="availability" value="1234eew45678"><br>
+            <input type="hidden" id="selectedDatesfield" name="selectedDatesfield"><br>
             <label for="description">Description</label>
             <input type="text" id="description" name="description"><br>
-    
+            
             <label for="condition">Condition</label>
             <select name="condition" id="condition">
                 <option value="Like New">Like New</option>
@@ -47,40 +49,150 @@
                 <option value="Very Damaged">Very Damaged</option>
             </select><br>
     
-    
             <label for="image">Image of Product</label>
             <input type="file" accept="image/*" id="image" name="image"><br>
-
             <fieldset>
-                <legend>Choose a start and end date for the availability of your tool:</legend>
-                <label for="start_date">Start Date:</label>
-                <input type="date" id="start_date" name="start_date" min="2024-01-01" max="2027-01-01">
-                <label for="end_date">End Date:</label>
-                <input type="date" id="end_date" name="end_date" min="2024-01-01" max="2027-01-01">
-            </fieldset>
+            <legend>Choose availability dates for your tool:</legend>
+
+            <!-- Availability Calendar will be placed here -->
+            <div id="calendar-container">
+                <table id="calendar">
+                    <caption id="calendar-controls">
+                        <button id="prev">Previous</button>
+                        <span id="monthYear"></span>
+                        <button id="next">Next</button>
+                    </caption>
+                    <tbody>
+                        <!-- Days will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </fieldset><br>
             
             <label for="autocomplete">Location</label>
             <input id="autocomplete" type="text" name="autocomplete" placeholder="Enter a location" /><br>
             <button id="submitButton" name="submitButton">Submit</button>
         </form><br>
+
         <div id="toolregistererror" class="formerror" hidden></div>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="../public/js/client_side_validation.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&libraries=places"></script>
         <script src="../public/js/autocomplete.js"></script>
+         
         <script>
-  function initAutocomplete() {
-    // Get the input element
-    var input = document.getElementById('autocomplete');
-    
-    // Initialize the autocomplete object
-    var autocomplete = new google.maps.places.Autocomplete(input);
-    // Optionally, you can add an event listener to handle the place selection
-    
-  }
+    const calendar = document.getElementById('calendar').getElementsByTagName('tbody')[0];
+    const today = new Date();
+    var selectedDates = []; // Array to store selected dates
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+    function generateCalendar(month, year) {
+        calendar.innerHTML = '';
+        
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDay = firstDay.getDay();
+        monthYear.textContent = `${firstDay.toLocaleString('default', { month: 'long' })} ${year}`;
+        let dayCounter = 1;
+        calendar.insertRow()
+        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const headerRow = calendar.insertRow();
+        daysOfWeek.forEach(day => {
+        const headerCell = headerRow.insertCell();
+        headerCell.textContent = day;
+        headerCell.classList.add('day-header'); // Add any necessary styling class for the header
+        }); 
+        // Loop through 6 rows (maximum number of rows in a month)
+        for (let i = 0; i < 6; i++) {
+            const row = calendar.insertRow();
+            
+            // Loop through each day of the week
+            for (let j = 0; j < 7; j++) {
+                const cell = row.insertCell();
+                
+                // Empty cells before the start of the month
+                if (i === 0 && j < startingDay) {
+                    cell.textContent = '';
+                } else if (dayCounter <= daysInMonth) {
+                    // Insert the day number and make it available
+                    cell.textContent = dayCounter;
+                    cell.classList.add('available');
+                    cell.addEventListener('click', toggleAvailability);
+                    dayCounter++;
+                }
+            }
+            
+            // Stop when all days of the month are added
+            if (dayCounter > daysInMonth) break;
+        }
+    }
 
-  // Initialize the autocomplete when the page loads
-  window.addEventListener('load', initAutocomplete);
+    // Toggle availability of a day when clicked
+    function toggleAvailability() {
+        console.log('clicked');
+        const date = `${currentYear}-${currentMonth + 1}-${this.textContent}`;
+        console.log(date);
+        if (this.classList.contains('available')) {
+            this.classList.remove('available');
+            this.classList.add('unavailable');
+            selectedDates.push(date); // Add the date to the selectedDates array
+            // Add the date to the selectedDates input field
+            
+        } else {
+            this.classList.remove('unavailable');
+            this.classList.add('available');
+            // Remove the date from the selectedDates array
+            selectedDates = selectedDates.filter(d => d !== date);
+            //selectedDates.pop(date); // Remove the date from the selectedDates array
+            
+        }
+        console.log("Selected dates:");
+        console.log(selectedDates);
+        console.log(selectedDates.length);
+        // Update the hidden input field with the selected dates
+        
+        console.log(document.getElementById('selectedDatesfield').value);
+        document.getElementById('selectedDatesfield').value = selectedDates.join(',');
+        document.getElementById('selectedDatesDisplay').textContent = selectedDates.join(', ');
+        console.log("Selected dates: listtttttttt");
+    }
+
+    // Generate the calendar for the current month and year
+    generateCalendar(currentMonth, currentYear);
+
+document.getElementById('next').addEventListener('click', () => {
+        currentMonth++;  // Move to the next month
+        if (currentMonth > 11) {  // If the month goes above 11 (i.e., Dec), reset to January of the next year
+            currentMonth = 0;
+            currentYear++;
+        }
+        generateCalendar(currentMonth, currentYear);  // Regenerate the calendar
+    });
+
+document.getElementById('prev').addEventListener('click', () => {
+        currentMonth--;  // Move to the previous month
+        if (currentMonth < 0) {  // If the month goes below 0 (i.e., Jan), reset to December of the previous year
+            currentMonth = 11;
+            currentYear--;
+        }
+        generateCalendar(currentMonth, currentYear);  // Regenerate the calendar
+    });
+
 </script>
+
+
+        <script>
+            function initAutocomplete() {
+            // Get the input element
+            var input = document.getElementById('autocomplete');
+    
+            // Initialize the autocomplete object
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            // Optionally, you can add an event listener to handle the place selection
+            }
+            // Initialize the autocomplete when the page loads
+            window.addEventListener('load', initAutocomplete);
+        </script>
 
 </body>

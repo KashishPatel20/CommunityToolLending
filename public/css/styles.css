@@ -103,7 +103,6 @@ input[type="text"], input[type="password"], select {
 }
 
 button {
-    width: 100%;
     padding: 10px;
     background-color: #28a745;
     color: white;
@@ -260,21 +259,38 @@ body.dark .greeting h1,  body.dark .greeting h3, body.dark .greeting h2 {
 
 }
 
+        /* General table styles */
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+            width: 14.28%; /* Ensures columns are evenly spaced (100% / 7 days) */
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
 
+        /* Styles for available days */
+        .available {
+            background-color: lightgreen;
+            cursor: pointer;
+        }
 
+        /* Styles for unavailable days */
+        .unavailable {
+            background-color: lightcoral;
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
+        /* Optional: Hover effect for available days */
+        .available:hover {
+            background-color: #98FB98;
+        }
 
 
 .scroll-container {
@@ -461,3 +477,20 @@ body.dark .toolArt p {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   }
+
+  #calendar{
+    margin: 0 auto;
+  }
+    #prev{
+    float: left;
+    }
+    #next{
+        float: right;
+    }
+    #monthYear{
+        float: center;
+    }
+
+
+
+    

@@ -7,7 +7,7 @@ import{
     checkIsProperPassword,
     containsNumbers, 
 } from './../helpers.js'
-import {addTool,getAllTools,getToolWithID,deleteTool,updateTool, getToolWithUserID,searchTools, addWishlist} from '../data/tools.js';
+import {addTool,getAllTools,getToolWithID,deleteTool,updateTool, getToolWithUserID,searchTools, addWishlist,stringToDateSet} from '../data/tools.js';
 import {toolRequested} from '../data/users.js';
 import xss from 'xss';
 
@@ -150,22 +150,23 @@ router.route('/toolsregister')
     })
     .post(async (req, res) => {
         try {
-            console.log("tool_route line 140")
+            console.log("tool_route line 140");
+            console.log("req.body");
+            console.log(req.body);
             let toolName = xss(req.body.toolName);
             let description = xss(req.body.description);
             let condition = xss(req.body.condition);
             let userID = req.session.user._id;
-            let availability = {start: new Date(xss(req.body.start_date)), end: new Date(xss(req.body.end_date))};
+            // selectedDatesfield: '2025-3-2,2025-3-11,2025-3-31,2025-3-16'
+            let availability = stringToDateSet(xss(req.body.selectedDatesfield));
             let location = xss(req.body.autocomplete);
             let image = xss(req.body.image);
+            console.log("availability");
             console.log(availability);
             toolName = await helper.checkString(toolName, 'Tool Name');
             description = await helper.checkString(description, 'Description');
             condition = await helper.checkString(condition, 'Condition');
             userID = await helper.checkId(userID, 'User ID');
-            availability.start = await helper.checkDate(availability.start, 'Start Date');
-            availability.end = await helper.checkDate(availability.end, 'End Date');
-            if (availability.start.getTime() > availability.end.getTime()) throw 'Error: Start Date must come before End Date';
             console.log("tool_route line 155")
             let tool = await addTool(toolName, description, condition, userID, availability, location, image); 
             console.log("Tool: output");
@@ -302,6 +303,12 @@ router.route('/tools')
             console.log(error);
             res.status(500).json({error: error.message});
         }
+    });
+    
+    router.route('/calendar')
+    .get(async(req, res) => {
+        // Rendering the static calendar.handlebars template
+        res.render('calendar', {themePreference: req.session.user.themePreference, title: 'Calendar'});
     });
 
 export default router;

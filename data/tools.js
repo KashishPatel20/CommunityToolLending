@@ -167,6 +167,10 @@ export const updateTool = async ({toolID, toolName, description, condition, user
     return updateInfo;
 };
 
+export const stringToDateSet = (dateString) => {
+    let dateSet = new Set(dateString.split(',').map(date => date.trim()));
+    return dateSet;
+}
 // deleteTool
 export const deleteTool = async (toolid,userid) => {
     try{

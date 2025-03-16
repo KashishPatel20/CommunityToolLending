@@ -21,7 +21,7 @@ if (toolregisterform) {
          error.innerHTML = '';
          error.hidden = true;
          console.log("reached line 41");
-         if(!toolName || !description || !condition || !userID || !availability || !location){
+         if(!toolName || !description || !condition || !userID  || !location){
             console.log("reached line 43"); 
             error.innerHTML = 'All fields are required';
              error.hidden = false;
@@ -279,6 +279,18 @@ else{
     err.textContent=responsePage1.error
 }
     
-
-
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const calendarContainer = document.getElementById('calendar');
+
+    // Add event listener to handle clicks on available days
+    calendarContainer.addEventListener('click', (event) => {
+        const clickedDay = event.target;
+
+        // Only allow selection of available days
+        if (clickedDay.classList.contains('available')) {
+            clickedDay.classList.toggle('selected'); // Toggle the selected class
+        }
+    });
+});
